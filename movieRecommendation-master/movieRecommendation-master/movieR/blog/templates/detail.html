@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if not message %}
+
+<div class="buses_detail">
+	<div class=" buses_coll">
+		<h1 class="text-white text-center"> Rating the Buses</h1>
+		{% if buses %}
+			<div class="card my-2 border-0 ">
+				<div class="card-header"></div>
+				<div class="card-body">{{buses}}
+					<h2 id="busrating_num" class="mt-3"></h2>
+				</div>
+				<div class="card-footer"></div>
+			</div>
+		{% endif %}
+		<div class="btn_collection text-center">
+			<span class="fa fa-3x fa-star " id='1' onclick="a(this.id)"></span>
+			<span class="fa fa-3x fa-star " id='2'  onclick="a(this.id)"></span>
+			<span class="fa fa-3x fa-star " id='3'  onclick="a(this.id)"></span>
+			<span class="fa fa-3x fa-star " id='4'  onclick="a(this.id)"></span>
+			<span class="fa fa-3x fa-star " id='5'  onclick="a(this.id)"></span>
+			<br>
+			<input type="submit" class="btn  btn-primary px-5" id='sendbtn' value='Done'>
+		</div>
+	</div>
+</div>
+{% else %}
+    <h1>{{buses}} Not Found.</h1>
+{% endif %}
+<script>
+
+var sbtn=document.getElementById('sendbtn');
+sbtn.addEventListener("click",function(){
+	
+	window.location.assign("/recommendation?buses={{buses}}&busrating="+busrating)
+
+})
+
+// Rating overLook functionality
+function a(ra){
+	var ra1=document.getElementById(`${ra}`);
+	var r=Number(ra);
+	var n=busrating;
+	var busrating_insert=document.getElementById('busrating_num');
+	if(r==n){
+	if(ra1.classList.contains("checked")){
+		ra1.classList.remove("checked");
+		busrating=busrating-1
+		if(busrating==0){
+			busrating_insert.innerHTML=""
+		}else{
+			busrating_insert.innerHTML=busrating;
+		
+		}
+	}
+	}else{
+		if(r-1==n){
+		busrating=busrating+1
+		ra1.classList.toggle("checked");
+		rating_insert.innerHTML=busrating;
+	}
+	}
+}
+var busrating=0
+</script>
+{% endblock %}
